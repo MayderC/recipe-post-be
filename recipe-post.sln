@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Application", "Recipes.Application\Recipes.Application.csproj", "{98E9C804-F6CB-4454-8550-3381FF51226A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Adapter", "Recipes.Adapter\Recipes.Adapter.csproj", "{E1079FF6-A854-4183-942D-28D36BFC2FC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.WebAPI", "Recipes.WebAPI\Recipes.WebAPI.csproj", "{004BA1F8-C906-4A2B-8287-D5C7A4ECE169}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98E9C804-F6CB-4454-8550-3381FF51226A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98E9C804-F6CB-4454-8550-3381FF51226A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98E9C804-F6CB-4454-8550-3381FF51226A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98E9C804-F6CB-4454-8550-3381FF51226A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1079FF6-A854-4183-942D-28D36BFC2FC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1079FF6-A854-4183-942D-28D36BFC2FC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1079FF6-A854-4183-942D-28D36BFC2FC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1079FF6-A854-4183-942D-28D36BFC2FC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{004BA1F8-C906-4A2B-8287-D5C7A4ECE169}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{004BA1F8-C906-4A2B-8287-D5C7A4ECE169}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{004BA1F8-C906-4A2B-8287-D5C7A4ECE169}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{004BA1F8-C906-4A2B-8287-D5C7A4ECE169}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
