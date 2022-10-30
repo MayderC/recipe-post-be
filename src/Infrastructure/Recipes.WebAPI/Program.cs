@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
+using Microsoft.EntityFrameworkCore;
 using Recipes.Adapter.Services;
 using Recipes.Application.Services;
+using Recipes.Database.DataContext;
 using Recipes.WebAPI.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,10 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 builder.Services.AddAutoMapper(typeof(Automapper));
+builder.Services.AddDbContext<RecipesContext>(ops =>
+{
+    ops.UseSqlServer("Data Source=localhost;Integrated Security=True;database=recipes-db");
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
