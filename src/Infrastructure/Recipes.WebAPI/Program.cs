@@ -15,7 +15,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 //Repositories
 builder.Services.AddScoped<IRepository<User>, BaseRepository<User>>();
-
+builder.Services.AddScoped<IUserRepository<User>, UserRepository>();
 
 
 builder.Services.AddAutoMapper(typeof(Automapper));

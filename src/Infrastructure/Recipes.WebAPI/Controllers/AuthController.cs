@@ -43,18 +43,19 @@ public class AuthController : Controller
     }
 
     [HttpPost("/login")]
-    public ActionResult Login([FromBody] UserLoginRequest request)
+    public ActionResult<UserLoginResponse> Login([FromBody] UserLoginRequest request)
     {
         try
         {
-            //var user = _authService.Login(_mapper.Map<User>(request));
+            var user = _authService.Login(_mapper.Map<User>(request));
+            var token = new JsonWebToken(_config);
             var loginResponse = new UserLoginResponse
             {
                 isAuthenticated = true,
-                RefreshToken = "refresh",
-                AccessToken = "access"
+                RefreshToken = token.GetAccessToken(user),
+                AccessToken =  token.GetRefreshToken(user)
             };
-            return Ok(_config.GetValue<string>("jwt"));
+            return Ok(loginResponse);
         }
         catch (Exception e)
         {

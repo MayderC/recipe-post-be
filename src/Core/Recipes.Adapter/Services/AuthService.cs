@@ -7,16 +7,16 @@ namespace Recipes.Adapter.Services;
 
 public class AuthService : IAuthService
 {
-    private readonly IRepository<User> _userRepository;
+    private readonly IUserRepository<User> _userRepository;
 
-    public AuthService(IRepository<User> userRepository)
+    public AuthService(IUserRepository<User> userRepository)
     {
         _userRepository = userRepository;
     }
     
     public User Login(User user)
     {
-        return  _userRepository.Get(user.Id);
+        return  _userRepository.GetByUsername(user.Username);
     }
 
     public User Register(User user)
