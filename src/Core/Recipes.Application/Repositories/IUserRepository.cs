@@ -1,6 +1,6 @@
 ﻿namespace Recipes.Application.Repositories;
 
-public interface IUserRepository
+public interface IUserRepository<T> : IRepository<T> where T : class
 {
-    
+    T GetByUsername(string userame);
 }

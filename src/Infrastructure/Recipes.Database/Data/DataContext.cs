@@ -3,9 +3,21 @@ using Recipes.Application.Entities;
 
 namespace Recipes.Database.Data;
 
-public class RecipesContext : DbContext
+public class DataContext : DbContext
 {
-    public RecipesContext(DbContextOptions<RecipesContext> options) : base(options) { }
+    public  DataContext() {}
+    public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>()
+            .HasIndex(U => U.Username)
+            .IsUnique();
+        modelBuilder.Entity<User>()
+            .HasIndex(U => U.Email)
+            .IsUnique();
+    }
+
     public DbSet<User> Users { get; set; }
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<Tag> Tags { get; set; }

@@ -7,10 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Repositories" />
-    </ItemGroup>
-
-    <ItemGroup>
+      <ProjectReference Include="..\..\Infrastructure\Recipes.Database\Recipes.Database.csproj" />
       <ProjectReference Include="..\Recipes.Application\Recipes.Application.csproj" />
     </ItemGroup>
 
