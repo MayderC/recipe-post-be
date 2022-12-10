@@ -13,51 +13,53 @@ public class AuthController : Controller
 {
     private readonly IAuthService _authService;
     private readonly IMapper _mapper;
-    
-    public AuthController(IAuthService authService, IMapper mapper)
+    private readonly IConfiguration _config;
+    public AuthController(IAuthService authService, IMapper mapper, IConfiguration config)
     {
+        _config = config;
         _mapper = mapper;
         _authService = authService;
     }
-    
+
     [HttpPost("/register")]
     public ActionResult<UserRegisterResponse> Register([FromBody] UserRegisterRequest request)
     {
         try
         {
             var user = _authService.Register(_mapper.Map<User>(request));
-            var token = new JsonWebToken();
+            var token = new JsonWebToken(_config);
             var response = new UserRegisterResponse
             {
-                AccessToken = token.getAccessToken(user),
-                RefreshToken = token.getRefreshToken(user),
+                AccessToken = token.GetAccessToken(user),
+                RefreshToken = token.GetRefreshToken(user),
             };
             return Ok(response);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            Console.WriteLine(e.Message, "ERROR");
             return BadRequest(400);
         }
     }
 
     [HttpPost("/login")]
-    public ActionResult<UserLoginResponse> Login([FromBody] UserLoginRequest user)
+    public ActionResult Login([FromBody] UserLoginRequest request)
     {
-        var toUser = new User
+        try
         {
-            Password = user.password,
-            Username = user.Username
-        };
-
-        var users = _authService.Login(toUser); 
-        
-        UserLoginResponse loginResponse = new UserLoginResponse
+            //var user = _authService.Login(_mapper.Map<User>(request));
+            var loginResponse = new UserLoginResponse
+            {
+                isAuthenticated = true,
+                RefreshToken = "refresh",
+                AccessToken = "access"
+            };
+            return Ok(_config.GetValue<string>("jwt"));
+        }
+        catch (Exception e)
         {
-            isAuthenticated = true,
-            RefreshToken = "refresh",
-            AccessToken = "access"
-        };
-        return loginResponse;
+            Console.WriteLine(e);
+            return BadRequest(400);
+        }
     }
 }

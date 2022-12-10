@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.EntityFrameworkCore;
+using Recipes.Adapter.Repositories;
 using Recipes.Adapter.Services;
+using Recipes.Application.Entities;
+using Recipes.Application.Repositories;
 using Recipes.Application.Services;
-using Recipes.Database.DataContext;
+using Recipes.Database.Data;
 using Recipes.WebAPI.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,11 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+//Repositories
+builder.Services.AddScoped<IRepository<User>, BaseRepository<User>>();
+
+
 
 builder.Services.AddAutoMapper(typeof(Automapper));
-builder.Services.AddDbContext<RecipesContext>(ops =>
+
+builder.Services.AddDbContext<DataContext>(ops =>
 {
-    ops.UseSqlServer("Data Source=localhost;Integrated Security=True;database=recipes-db");
+    ops.UseSqlServer("Data source=localhost;Integrated Security=True;database=recipes-db");
 });
 
 builder.Services.AddControllers();
@@ -25,6 +33,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
     .AddNegotiate();
 
+var keyValue = builder.Configuration.GetValue<string>("jwt");
 builder.Services.AddAuthorization(options =>
 {
     // By default, all incoming requests will be authorized according to the default policy.
