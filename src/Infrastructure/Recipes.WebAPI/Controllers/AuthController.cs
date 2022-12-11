@@ -11,56 +11,57 @@ namespace Recipes.WebAPI.Controllers;
 [Route("/api/auth")]
 public class AuthController : Controller
 {
-    private readonly IAuthService _authService;
-    private readonly IMapper _mapper;
-    private readonly IConfiguration _config;
-    public AuthController(IAuthService authService, IMapper mapper, IConfiguration config)
-    {
-        _config = config;
-        _mapper = mapper;
-        _authService = authService;
-    }
+  private readonly IAuthService _authService;
+  private readonly IMapper _mapper;
+  private readonly IConfiguration _config;
+  public AuthController(IAuthService authService, IMapper mapper, IConfiguration config)
+  {
+    _config = config;
+    _mapper = mapper;
+    _authService = authService;
+  }
 
-    [HttpPost("/register")]
-    public ActionResult<UserRegisterResponse> Register([FromBody] UserRegisterRequest request)
+  [HttpPost("/register")]
+  public ActionResult<UserRegisterResponse> Register([FromBody] UserRegisterRequest request)
+  {
+    try
     {
-        try
-        {
-            var user = _authService.Register(_mapper.Map<User>(request));
-            var token = new JsonWebToken(_config);
-            var response = new UserRegisterResponse
-            {
-                AccessToken = token.GetAccessToken(user),
-                RefreshToken = token.GetRefreshToken(user),
-            };
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message, "ERROR");
-            return BadRequest(400);
-        }
+      var user = _authService.Register(_mapper.Map<User>(request));
+      var token = new JsonWebToken(_config);
+      var response = new UserRegisterResponse
+      {
+        RegisterOkey = true,
+        AccessToken = token.GetAccessToken(user),
+        RefreshToken = token.GetRefreshToken(user),
+      };
+      return Ok(response);
     }
+    catch (Exception e)
+    {
+      Console.WriteLine(e.Message, "ERROR");
+      return BadRequest(400);
+    }
+  }
 
-    [HttpPost("/login")]
-    public ActionResult<UserLoginResponse> Login([FromBody] UserLoginRequest request)
+  [HttpPost("/login")]
+  public ActionResult<UserLoginResponse> Login([FromBody] UserLoginRequest request)
+  {
+    try
     {
-        try
-        {
-            var user = _authService.Login(_mapper.Map<User>(request));
-            var token = new JsonWebToken(_config);
-            var loginResponse = new UserLoginResponse
-            {
-                isAuthenticated = true,
-                RefreshToken = token.GetAccessToken(user),
-                AccessToken =  token.GetRefreshToken(user)
-            };
-            return Ok(loginResponse);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return BadRequest(400);
-        }
+      var user = _authService.Login(_mapper.Map<User>(request));
+      var token = new JsonWebToken(_config);
+      var loginResponse = new UserLoginResponse
+      {
+        isAuthenticated = true,
+        RefreshToken = token.GetAccessToken(user),
+        AccessToken = token.GetRefreshToken(user)
+      };
+      return Ok(loginResponse);
     }
+    catch (Exception e)
+    {
+      Console.WriteLine(e);
+      return BadRequest(e.Message);
+    }
+  }
 }
