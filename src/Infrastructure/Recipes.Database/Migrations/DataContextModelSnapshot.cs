@@ -24,8 +24,9 @@ namespace Recipes.Database.Migrations
 
             modelBuilder.Entity("Recipes.Application.Entities.Recipe", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -45,21 +46,38 @@ namespace Recipes.Database.Migrations
                     b.ToTable("Recipes");
                 });
 
+            modelBuilder.Entity("Recipes.Application.Entities.RecipeTag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RecipeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("RecipeTags");
+                });
+
             modelBuilder.Entity("Recipes.Application.Entities.Tag", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RecipeId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RecipeId");
 
                     b.ToTable("Tags");
                 });
@@ -104,16 +122,33 @@ namespace Recipes.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Recipes.Application.Entities.Tag", b =>
+            modelBuilder.Entity("Recipes.Application.Entities.RecipeTag", b =>
                 {
-                    b.HasOne("Recipes.Application.Entities.Recipe", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("RecipeId");
+                    b.HasOne("Recipes.Application.Entities.Recipe", "Recipe")
+                        .WithMany("RecipeTags")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Recipes.Application.Entities.Tag", "Tag")
+                        .WithMany("RecipeTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Recipes.Application.Entities.Recipe", b =>
                 {
-                    b.Navigation("Tags");
+                    b.Navigation("RecipeTags");
+                });
+
+            modelBuilder.Entity("Recipes.Application.Entities.Tag", b =>
+                {
+                    b.Navigation("RecipeTags");
                 });
 #pragma warning restore 612, 618
         }

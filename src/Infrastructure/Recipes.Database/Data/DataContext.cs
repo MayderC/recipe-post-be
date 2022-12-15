@@ -17,8 +17,9 @@ public class DataContext : DbContext
             .HasIndex(U => U.Email)
             .IsUnique();
     }
-
+    
     public DbSet<User> Users { get; set; }
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<Tag> Tags { get; set; }
+    public DbSet<RecipeTag> RecipeTags { get; set; }
 }

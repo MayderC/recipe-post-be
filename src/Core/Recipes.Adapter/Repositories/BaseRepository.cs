@@ -13,7 +13,11 @@ public class BaseRepository<T> : IRepository<T> where T : class
         _context = context;
         _dbSet = _context.Set<T>();
     }
-
+    public void AddRange(IEnumerable<T> list)
+    {
+        _dbSet.AddRange(list);
+        _context.SaveChanges();
+    }
     public T Get(Guid id)
     {
         var entity = _dbSet.Find(id);

@@ -12,11 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IRecipeService, RecipeService>();
+builder.Services.AddScoped<IRecipeTagService, RecipeTagService>();
+builder.Services.AddScoped<ITagService, TagService>();
+
 
 //Repositories
-builder.Services.AddScoped<IRepository<User>, BaseRepository<User>>();
 builder.Services.AddScoped<IUserRepository<User>, UserRepository>();
-
+builder.Services.AddScoped<IRepository<User>, BaseRepository<User>>();
+builder.Services.AddScoped<IRepository<Recipe>, BaseRepository<Recipe>>();
+builder.Services.AddScoped<IRepository<RecipeTag>, BaseRepository<RecipeTag>>();
+builder.Services.AddScoped<IRepository<Tag>, BaseRepository<Tag>>();
 
 builder.Services.AddAutoMapper(typeof(Automapper));
 
