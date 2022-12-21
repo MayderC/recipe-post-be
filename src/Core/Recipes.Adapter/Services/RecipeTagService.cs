@@ -10,7 +10,11 @@ public class RecipeTagService : IRecipeTagService
   {
     _recipeTagRepository = recipeTagRepository;
   }
-  
+
+  public IEnumerable<Recipe> GetRecipesByTag(string tagName)
+  {
+    throw new NotImplementedException();
+  }
   public void Delete(string idTag, string idRecipe)
   {
     throw new NotImplementedException();

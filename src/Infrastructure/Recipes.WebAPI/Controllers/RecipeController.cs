@@ -42,8 +42,31 @@ public class RecipeController : Controller
     return Ok(recipes);
   }
   [HttpGet("user/{id}")]
-  public ActionResult<List<RecipeResponse>> GetRecipesByUser(string id)
+  public ActionResult GetRecipesByUser(Guid id)
   {
-    return Ok(id);
+    try
+    {
+      return Ok(_recipeService.GetRecipesByUser(id));
+    }
+    catch (Exception e)
+    {
+      Console.WriteLine(e);
+      return BadRequest();
+    }
   }
+  
+  [HttpGet("tag/{name}")]
+  public ActionResult GetRecipesByTag(string name)
+  {
+    try
+    {
+      return Ok(_recipeService.getRecipesByTag(name));
+    }
+    catch (Exception e)
+    {
+      Console.WriteLine(e);
+      return BadRequest();
+    }
+  }
+  
 }

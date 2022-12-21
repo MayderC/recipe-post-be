@@ -7,7 +7,7 @@ using Recipes.WebAPI.DTOs.tag;
 namespace Recipes.WebAPI.Controllers;
 
 [ApiController]
-[Route("api/recipes/tag")]
+[Route("api/recipes/tags")]
 public class TagController : Controller
 {
   private IRecipeTagService _recipeTagService;
@@ -17,8 +17,8 @@ public class TagController : Controller
       _recipeTagService = recipeTagService;
     }
 
-  [HttpGet("{name}")]
-  public ActionResult<TagResponse> GetRecipesByTag(string name)
+  [HttpGet]
+  public ActionResult<TagResponse> GetTags(string name)
   {
     //var response = _recipeTagService.
     return Ok(name);

@@ -20,7 +20,7 @@ builder.Services.AddScoped<ITagService, TagService>();
 //Repositories
 builder.Services.AddScoped<IUserRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepository<User>, BaseRepository<User>>();
-builder.Services.AddScoped<IRepository<Recipe>, BaseRepository<Recipe>>();
+builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddScoped<IRepository<RecipeTag>, BaseRepository<RecipeTag>>();
 builder.Services.AddScoped<IRepository<Tag>, BaseRepository<Tag>>();
 

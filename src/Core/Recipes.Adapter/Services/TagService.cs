@@ -22,4 +22,9 @@ public class TagService : ITagService
     return _tagRepository.GetAll();
   }
 
+  public void Delete(Guid id)
+  {
+    throw new NotImplementedException();
+  }
+
 }

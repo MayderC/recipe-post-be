@@ -7,17 +7,25 @@ namespace Recipes.Adapter.Services;
 public class RecipeService : IRecipeService
 {
 
-  private readonly IRepository<Recipe> _recipeRepository;
+  private readonly IRecipeRepository _recipeRepository;
   private readonly ITagService _tagService;
   private readonly IRecipeTagService _recipeTagService;
   
-  public RecipeService(IRepository<Recipe> recipeRepository, ITagService tagService, IRecipeTagService recipeTagService)
+  public RecipeService(IRecipeRepository recipeRepository, ITagService tagService, IRecipeTagService recipeTagService)
   {
     _recipeTagService = recipeTagService;
     _recipeRepository = recipeRepository;
     _tagService = tagService;
   }
-  
+  public IEnumerable<Recipe> GetRecipesByUser(Guid id)
+  {
+    return _recipeRepository.GetRecipesByUser(id);
+  }
+
+  public IEnumerable<Recipe> getRecipesByTag(string tagName)
+  {
+    return _recipeTagService.GetRecipesByTag(tagName);
+  }
   /*
    * this method, receive the recipe and tagsId which are saved in the DB
    * also receive a list of names which are not save in the db
@@ -32,25 +40,25 @@ public class RecipeService : IRecipeService
     var listTag = new List<Tag>();
     if (tagNames.Count > 0)
     {
-      foreach (var name in tagNames)
-        listTag.Add(new Tag {Id = Guid.NewGuid(), Name = name});
+      listTag.AddRange(tagNames.Select(name => new Tag
+      {
+        Id = Guid.NewGuid(),
+        Name = name
+      }));
       _tagService.AddRange(listTag);
     }
     var idSaveds = listTag.Select(x => x.Id).ToList();
     tagIds.AddRange(idSaveds);
 
-    if (idSaveds.Count > 0)
-    {
-      var recipeTagList = tagIds.Select(id => new RecipeTag
-          {
-            Id = Guid.NewGuid(), 
-            RecipeId = request.Id, 
-            TagId = id
-          })
-        .ToList();
-      _recipeTagService.AddRange(recipeTagList);
-    }
-    
+    if (idSaveds.Count <= 0) return request;
+    var recipeTagList = tagIds.Select(id => new RecipeTag
+      {
+        Id = Guid.NewGuid(), 
+        RecipeId = request.Id, 
+        TagId = id
+      })
+      .ToList();
+    _recipeTagService.AddRange(recipeTagList);
     return request;
   }
   public IEnumerable<Recipe> GetAll()
