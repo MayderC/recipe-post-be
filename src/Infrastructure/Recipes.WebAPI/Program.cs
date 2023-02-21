@@ -1,5 +1,8 @@
+using System.Text;
 using Microsoft.AspNetCore.Authentication.Negotiate;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Recipes.Adapter.Repositories;
 using Recipes.Adapter.Services;
 using Recipes.Application.Entities;
@@ -36,10 +39,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
-    .AddNegotiate();
-
 var keyValue = builder.Configuration.GetValue<string>("jwt");
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = "http://localhost",
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new
+                SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyValue))
+        };
+    });
+
+
 builder.Services.AddAuthorization(options =>
 {
     // By default, all incoming requests will be authorized according to the default policy.

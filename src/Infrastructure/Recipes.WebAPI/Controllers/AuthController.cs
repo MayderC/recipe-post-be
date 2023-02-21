@@ -7,8 +7,8 @@ using Recipes.WebAPI.Helper;
 
 namespace Recipes.WebAPI.Controllers;
 
+[Route("api/auth")]
 [ApiController]
-[Route("/api/auth")]
 public class AuthController : Controller
 {
   private readonly IAuthService _authService;
@@ -21,7 +21,7 @@ public class AuthController : Controller
     _authService = authService;
   }
 
-  [HttpPost("/register")]
+  [HttpPost("register")]
   public ActionResult<UserRegisterResponse> Register([FromBody] UserRegisterRequest request)
   {
     try
@@ -43,7 +43,7 @@ public class AuthController : Controller
     }
   }
 
-  [HttpPost("/login")]
+  [HttpPost("login")]
   public ActionResult<UserLoginResponse> Login([FromBody] UserLoginRequest request)
   {
     try

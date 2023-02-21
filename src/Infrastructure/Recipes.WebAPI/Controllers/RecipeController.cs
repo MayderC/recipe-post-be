@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.WebAPI.DTOs.recipes;
 using Recipes.Application.Entities;
@@ -35,18 +36,20 @@ public class RecipeController : Controller
       return  BadRequest();
     }
   }
+  
   [HttpGet]
   public ActionResult<RecipeResponse> GetRecipes()
   {
     var recipes = _recipeService.GetAll();
     return Ok(recipes);
   }
+  
   [HttpGet("user/{id}")]
-  public ActionResult GetRecipesByUser(Guid id)
+  public ActionResult GetRecipesByUser(string id)
   {
     try
     {
-      return Ok(_recipeService.GetRecipesByUser(id));
+      return Ok(_recipeService.GetRecipesByUser(Guid.Parse(id)));
     }
     catch (Exception e)
     {

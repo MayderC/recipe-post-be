@@ -18,6 +18,7 @@ public class AuthService : IAuthService
   public User Login(User request)
   {
     var userfound = _userRepository.GetByUsername(request.Username);
+    if(userfound == null)  throw new Exception("Not Found");
     if (HashPassword.Compare(userfound.Password, request.Password)) return userfound;
     throw new Exception("Not Found");
   }
