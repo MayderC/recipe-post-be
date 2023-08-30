@@ -6,7 +6,6 @@ using Recipes.Application.Entities;
 using Recipes.Application.Services;
 
 namespace Recipes.WebAPI.Controllers;
-
 [Route("api/recipes")]
 [ApiController]
 public class RecipeController : Controller

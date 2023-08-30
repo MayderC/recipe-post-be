@@ -33,7 +33,13 @@ builder.Services.AddDbContext<DataContext>(ops =>
 {
     ops.UseSqlServer("Data source=localhost;Integrated Security=True;database=recipes-db");
 });
-
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(cors =>
+    {
+        cors.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost").AllowAnyHeader().AllowAnyMethod();
+    });
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -54,13 +60,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
-builder.Services.AddAuthorization(options =>
-{
-    // By default, all incoming requests will be authorized according to the default policy.
-    options.FallbackPolicy = options.DefaultPolicy;
-});
+
+
 
 var app = builder.Build();
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
